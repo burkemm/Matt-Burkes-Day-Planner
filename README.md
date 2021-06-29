@@ -8,8 +8,8 @@ I learned how to use the moment function. This homework helped me build on the p
 to use a variety of functions and I used siblings and children elements in this homework.
 
 **URLs for the Coding Challenge Quiz Website** <BR />
-<a href ="https://burkemm.github.io/Matts-Day-Planner/">Matt's Day Planner</a> <BR />
-<a href ="https://github.com/burkemm/Matts-Day-Planner">Matt's Day Planner Github Repository</a>
+<a href ="https://burkemm.github.io/Matt-Burkes-Day-Planner/">Matt Burke's Day Planner</a> <BR />
+<a href ="https://github.com/burkemm/Matt-Burkes-Day-Planner">Matt Burke's Day Planner Github Repository</a>
 
 **What's the current webpage look like?** <BR />
 
