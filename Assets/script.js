@@ -165,28 +165,10 @@ localStorageData();
 
 
 // Allows edits and saves future event data to be used in localStorage
-// $(".saveBtn").on("click", function(event) {
-//     event.preventDefault();
-//     var saveIndex = $(this).siblings(".description").children(".past").attr("id");
-//     mySchedule[saveIndex].reminder = $(this).siblings(".description").children(".past").val();
-//     console.log(saveIndex);
-//     saveEvents();
-//     showEvents();
-// })
-
-// $(".saveBtn").on("click", function(event) {
-//     event.preventDefault();
-//     var saveIndex = $(this).siblings(".description").children(".present").attr("id");
-//     mySchedule[saveIndex].reminder = $(this).siblings(".description").children(".present").val();
-//     console.log(saveIndex);
-//     saveEvents();
-//     showEvents();
-// })
-
 $(".saveBtn").on("click", function(event) {
     event.preventDefault();
-    var saveIndex = $(this).siblings(".description").children(".future").attr("id");
-    mySchedule[saveIndex].reminder = $(this).siblings(".description").children(".future").val();
+    var saveIndex = $(this).siblings(".description").children("textarea").attr("id");
+    mySchedule[saveIndex].reminder = $(this).siblings(".description").children("textarea").val();
     console.log(saveIndex);
     saveEvents();
     showEvents();
