@@ -1,178 +1,68 @@
-// This variable is for all hours in the work day between 9am and 5pm.
-var mySchedule = [
-    {
-        id: "0",
-        hour: "9",
-        time: "09",
-        meridiem: "am",
-        reminder: ""
-    },
-    {
-        id: "1",
-        hour: "10",
-        time: "10",
-        meridiem: "am",
-        reminder: ""
-    },
-    {
-        id: "2",
-        hour: "11",
-        time: "11",
-        meridiem: "am",
-        reminder: ""
-    },
-    {
-        id: "3",
-        hour: "12",
-        time: "12",
-        meridiem: "pm",
-        reminder: ""
-    },
-    {
-        id: "4",
-        hour: "1",
-        time: "13",
-        meridiem: "pm",
-        reminder: ""
-    },
-    {
-        id: "5",
-        hour: "2",
-        time: "14",
-        meridiem: "pm",
-        reminder: ""
-    },
-    {
-        id: "6",
-        hour: "3",
-        time: "15",
-        meridiem: "pm",
-        reminder: ""
-    },
-    {
-        id: "7",
-        hour: "4",
-        time: "16",
-        meridiem: "pm",
-        reminder: ""
-    },
-    {
-        id: "8",
-        hour: "5",
-        time: "17",
-        meridiem: "pm",
-        reminder: ""
-    },
-    
-]
-// This displays the current date and time on the top of the page using moment.js.
-var showTimeEl = $('#time-display');
-
-function showTime() {
-    var rightNow = moment().format('MMM DD, YYYY [at] hh:mm:ss a');
-    showTimeEl.text(rightNow);
-}
-
-setInterval(showTime, 1000);
-
-
-// this creates the visuals for the day planner.
-mySchedule.forEach(function(selectedHour) {
-    // this creates the time blocks row in bootstrap
-    var timeRow = $("<form>").attr({
-        "class": "row"
-    });
-    $(".container").append(timeRow);
-
-    // this creates the time fields
-    var timeField = $("<div>")
-        .text(`${selectedHour.hour}${selectedHour.meridiem}`)
-        .attr({
-            "class": "col-md-2 hour"
+$(document).ready(function() {
+    // This listens for clicks on the save buttons for any hour.
+    $('.saveBtn').on('click', function () {
+      // Get the id and description values and convert to variables. 
+      // The hour variable is set to the id in the index, which is the parent attribute.
+      // The description variable is set to the description class, which is a sibling of the id attribute.
+      var hour = $(this).parent().attr('id');
+      var description = $(this).siblings('.description').val();
+  
+      // This will save the data in the description for the appropriate hour to localStorage.
+      localStorage.setItem(hour, description);  
     });
 
-    // this creates the data for the scheduler.
-    var timePlan = $("<div>")
-        .attr({
-            "class": "col-md-9 description p-0"
-        });
-    var planData = $("<textarea>");
-    timePlan.append(planData);
-    planData.attr("id", selectedHour.id);
+    // This function shows the current day at the top of the planner.        
+    function currentDatetime() {
+      // This variable puts the time in the time-display class
+      var showTimeEl = $('#time-display');
+      // This variable calls on momemt.js and sets the date/time format.
+      var dateTimenow = moment().format('MMM DD, YYYY [at] hh:mm:ss a');
 
-    // This else-if statement compares the acutal time to the hour on the planner
-    // and changes the class depending on the time of day and the hour. Each closs is color coded.
-    if (selectedHour.time < moment().format("HH")) {
-        planData.attr ({
-            "class": "past", 
-        })
-    } else if (selectedHour.time === moment().format("HH")) {
-        planData.attr({
-            "class": "present"
-        })
-    } else {
-        planData.attr({
-            "class": "future"
-        })
+      showTimeEl.text(dateTimenow);
+      // This sets the function to update every second.
+      setInterval(currentDatetime, 1000);
     }
-
-    // saves calendar event data to localStorage
-    function saveEvents() {  
-    localStorage.setItem("mySchedule", JSON.stringify(mySchedule));
+  
+    // This function compares the current hour to the hours in the planner and color codes the hours accordingly.
+    function plannerHour() {
+      // This will get the current number of hours.
+      var presentHour = moment().hours();
+  
+      // This takes the time-block class in all planner hours and converts them into a function.
+      $('.time-block').each(function () {
+        // This variable parses the numbers in the id section and splits the class after the hyphen. 
+        // Then, it takes the number before the hyphen for comparison, which explains the 0 in brackets.. ex. 9-am, 10-am.
+        var TimeSection = parseInt($(this).attr('id').split('-')[0]);
+        console.log(TimeSection)
+  
+        // This else-if statement will add or remove past, present, and future classes to the parent class according 
+        // to the time of day. The class that's added will determine the color background of the text blocks.
+        if (TimeSection < presentHour) {
+          $(this).addClass('past');
+        } else if (TimeSection === presentHour) {
+          $(this).removeClass('past');
+          $(this).addClass('present');
+        } else {
+          $(this).removeClass('past');
+          $(this).removeClass('present');
+          $(this).addClass('future');
+        }
+      });
     }
+  
+    // Calling our functions to show the current date/time and to color code the planner hours.
+    currentDatetime();
+    plannerHour();
 
-    // this displays any event data to the view
-    function showEvents() {  
-    mySchedule.forEach(function (_selectedHour) {
-        $(`#${_selectedHour.id}`).val(_selectedHour.reminder);
-    })
-    }
-
-    // this creates the save button on each time slot.
-    var saveButton = $("<i class='far fa-save fa-lg'></i>")
-    var savePlan = $("<button>")
-        .attr({
-            "class": "col-md-1 saveBtn"
-    });
-    savePlan.append(saveButton);
-    timeRow.append(timeField, timePlan, savePlan);
-})
-
-// saves calendar event data to localStorage
-function saveEvents() {  
-    localStorage.setItem("mySchedule", JSON.stringify(mySchedule));
-    }
-
-// this displays any event data to the view
-function showEvents() {  
-    mySchedule.forEach(function (_selectedHour) {
-        $(`#${_selectedHour.id}`).val(_selectedHour.reminder);
-    })
-    }
-// this sets any localStorage data to the view if there is any data.
-function localStorageData() {
-    var storedDay = JSON.parse(localStorage.getItem("mySchedule"));
-
-    if (storedDay) {
-        mySchedule = storedDay;
-    }
-
-    saveEvents();
-    showEvents();
-}
-
-localStorageData();
-
-
-// Allows edits and saves future event data to be used in localStorage
-$(".saveBtn").on("click", function(event) {
-    event.preventDefault();
-    var saveIndex = $(this).siblings(".description").children("textarea").attr("id");
-    mySchedule[saveIndex].reminder = $(this).siblings(".description").children("textarea").val();
-    console.log(saveIndex);
-    saveEvents();
-    showEvents();
-})
-
-
-
+    // this will load any saved data from localStorage if the page is refreshed.
+    $('#9-am .description').val(localStorage.getItem('9-am'));
+    $('#10-am .description').val(localStorage.getItem('10-am'));
+    $('#11-am .description').val(localStorage.getItem('11-am'));
+    $('#12-pm .description').val(localStorage.getItem('12-pm'));
+    $('#13-pm .description').val(localStorage.getItem('13-pm'));
+    $('#14-pm .description').val(localStorage.getItem('14-pm'));
+    $('#15-pm .description').val(localStorage.getItem('15-pm'));
+    $('#16-pm .description').val(localStorage.getItem('16-pm'));
+    $('#17-pm .description').val(localStorage.getItem('17-pm'));
+});
+  
