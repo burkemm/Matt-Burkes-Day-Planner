@@ -5,7 +5,8 @@ on the time of day. Light grey is the past hours, red is the current hour, and g
 
 **What did I learn from this assignment?** <BR />
 I learned how to use the moment function. This homework helped me build on the previous homework's lessons. I learned how 
-to use a variety of functions and I used siblings and children elements in this homework.
+to use a variety of functions and I used siblings and children elements in this homework. This function also helped me better
+understand explaining my work.
 
 **URLs for the Coding Challenge Quiz Website** <BR />
 <a href ="https://burkemm.github.io/Matt-Burkes-Day-Planner/">Matt Burke's Day Planner</a> <BR />
