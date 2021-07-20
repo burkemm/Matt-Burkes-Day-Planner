@@ -1,3 +1,4 @@
+// This gets the DOM (document object model) ready as soon as the page loads.
 $(document).ready(function() {
     // This listens for clicks on the save buttons for any hour.
     $('.saveBtn').on('click', function () {
